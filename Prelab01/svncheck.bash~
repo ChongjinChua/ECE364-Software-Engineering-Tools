@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#$Author: ee364g13 $
+#$Date: 2016-01-16 17:48:04 -0500 (Sat, 16 Jan 2016) $
+#$Revisions$
+#$HeadURL: svn+ssh://ece364sv@ecegrid-thin1/home/ecegrid/a/ece364sv/svn/S16/students/ee364g13/Prelab01/line_num.bash $
+#$Id: line_num.bash 85214 2016-01-16 22:48:04Z ee364g13 $
+
+param_num=$#
+param_val=$@
+USAGE="Usage: bash svncheck.bash <filename>"
+ERROR="Error: File "$param_val" appears to not exist here or in svn"
+
+#ONLY ALLOWS 1 ARGUMENT
+[[ "$param_num" != "1" ]] && (echo "$USAGE"; exit 1)
+
+while read line; do
+    status=$(svn status $line | cut -c1)
+    echo $status
+    if [[ "$status" == "A" ]]; then #IT'S IN SVN REPO,'A'
+	echo "hello"
+	[[ -e $line ]] && [[ ! -x $line ]] && (svn propset svn:executable ON $line)
+    elif [[ "$status" == "?" || "$status" == "M" ]]; then #NOT IN SVN REPO,'?' or 'M'
+	echo "yoyo"
+	if [[ -e $line ]]; then #IF EXISTS
+	    #IF NOT EXECUTABLE, CHMOD
+	    [[ ! -x $line ]] && chmod +x $line
+	else #IF DOESN'T EXISTS
+	    echo $ERROR; exit 1
+	fi
+	#ADD TO SVN REPO
+	echo "yo"
+	svn add $line
+    fi
+
+done < $param_val
+
+svn commit -m "Auto-committing code"
+
+exit 0
+
+
+

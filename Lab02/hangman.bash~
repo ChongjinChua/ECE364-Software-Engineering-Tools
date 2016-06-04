@@ -1,0 +1,28 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$HeadURL$
+#$Revision$
+#$Id$
+
+word=(banana parsimonious sesquipedalian)
+(( rand_num=$RANDOM % 3 ))
+
+(( word_len=$(echo ${word[rand_num]} | wc -c)-1 ))
+echo "Your word is $word_len letters long."
+
+user_array=""
+for (( i = 0; i < $word_len; i++ )); do
+    comp_array=$comp_array${word[rand_num]:$i:1}
+    user_array=$user_array'.'
+    comp_array=$comp_array' '
+    user_array=$user_array' '
+done
+comp_array=($comp_array)
+user_array=($user_array)
+
+echo $comp_array
+echo $user_array
+
+exit 0

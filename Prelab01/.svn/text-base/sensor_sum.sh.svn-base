@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#$Author$
+#$Date$
+#$Revisions$
+#$HeadURL$
+#$Id$
+
+param_num=$#
+param_val=$@
+USAGE="usage: sensor_sum.sh"
+ERROR="error: $param_val is not a readable file!"
+
+#ONLY ALLOWS 1 ARGUMENT, also make sure file is readable
+if (($param_num != 1)); then
+    echo "$USAGE"
+    exit 1
+elif [[ ! -r $param_val ]]; then
+    echo "$ERROR"
+    exit 1
+fi
+
+let total_sum=0
+while read -u 3 -r line; do
+
+    for (( I=2; I < 5; I++ )); do
+	sum=$(echo $line | cut -d' ' -f$I- | cut -d' ' -f1)
+	(( total_sum=total_sum+sum ))
+    done
+
+    echo "$(echo $line | cut -d'-' -f1) $total_sum"
+    
+    sum=0; total_sum=0
+done 3<$param_val
+
+exit 0
+
+
+

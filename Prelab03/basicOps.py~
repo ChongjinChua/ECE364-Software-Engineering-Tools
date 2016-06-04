@@ -1,0 +1,13 @@
+import math
+
+def addNumbers(num):
+    return sum(range(int(num)+1))
+
+def addMultiplesOf(num):
+    step_size = int(num)
+    return sum(range(0,1001,step_size))
+
+if __name__ == "__main__":
+#    print(addNumbers(5))
+    print(addMultiplesOf(499))
+    pass

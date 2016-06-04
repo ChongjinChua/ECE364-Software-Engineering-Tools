@@ -1,0 +1,65 @@
+import re
+
+def ques1():
+    str = " AAAAA "
+    str1 = " AAAAAAAA "
+    str2 = " A "
+    ary = [str,str1,str2]
+    regex = r"^\sA{2,5}\s$"
+    for item in ary:
+        result = re.search(regex,item)        
+        if result:
+            print(result.group(0))
+        else:
+            print("None")
+    pass
+
+
+def ques2():
+    str = "12.35 d sdf 45 r.4 -4.4 88.9";
+    print("original str = {0}".format(str))
+    print("regex str = {0}".format(re.sub(r"(-?\d+\.\d+)","float",str)))
+    pass
+
+def ques3():
+    str = "12.35 d sdf 45 r.4 -4.4 88.9";
+    print("original str = {0}".format(str))
+    print("regex str = {0}".format(re.subn(r"(-?\d+\.\d+)","float",str)))
+    pass
+
+def ques4():
+    regex = r"(?<!\S)[+-]?\d+(?!\S)"
+    str = "12.35 d sdf 45 r.4 -4.4 88.9 54 34 -90";
+    int_list = re.findall(regex,str)
+    print(int_list)
+    total = 0
+    for x in int_list:
+        total += int(x)
+    average = total / len(int_list)
+    print(average)
+    pass
+
+def ques5():
+    regex = r"(?<=EE)\d{3}"
+    replace = "461"
+    str = "EE364 EE364"
+    m = re.subn(regex,replace,str,count=1)
+    print(m)
+    pass
+
+def ques6():
+    regex = r"(?<!\S)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?!\S)"
+    str = "192.168.1.1 200.117.05.03 a.bad.ip.adr 10.10.1 4.4.4.4.4.4 128.a.1.1"
+    m = re.findall(regex,str)
+    print(m)
+    re.search
+    pass
+
+def ques7():
+    return re.subn(r"(-?\d+\.\d+)","float","12.35 d sdf 45 r.4 -4.4 88.9")    
+
+if __name__ == "__main__":
+    #ques1()
+    #ques2()
+    ques6()
+    pass

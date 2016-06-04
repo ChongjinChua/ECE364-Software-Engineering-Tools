@@ -1,0 +1,20 @@
+#! /bin/bash
+#
+#$Author: ee364g13 $
+#$Date: 2016-01-13 15:15:00 -0500 (Wed, 13 Jan 2016) $
+#$HeadURL: svn+ssh://ece364sv@ecegrid-thin1/home/ecegrid/a/ece364sv/svn/S16/students/ee364g13/Lab00/Script2 $
+#$Revision: 84713 $
+
+Num_Of_Param=1
+Loop_Counter=$@
+
+for ((; $Loop_Counter >= 0 ; Loop_Counter--))
+do
+    if(( $Loop_Counter%3  == 0))
+    then
+	echo $Loop_Counter
+    else
+    fi
+done
+
+exit 0

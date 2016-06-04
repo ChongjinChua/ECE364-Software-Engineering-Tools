@@ -1,0 +1,65 @@
+
+#!/bin/bash
+
+#$Author$
+#$Date$
+#$Revisions$
+#$HeadURL$
+#$Id$
+
+param_num=$#
+param_val=$@
+USAGE="Usage: ./check_file.bash <filename>"
+ERROR=""
+
+if [[ "$param_num" != "1" ]]; then
+    echo "$USAGE"
+    exit 1
+fi
+
+if [[ -e "$param_val" ]]; then
+    ERROR=""
+else
+    ERROR=" does not"
+fi
+echo "$param_val$ERROR exists"
+
+if [[ -d "$param_val" ]]; then
+    ERROR=""
+else
+    ERROR=" not"
+fi
+echo "$param_val is$ERROR a directory"
+
+if [[ -f "$param_val" ]]; then
+    ERROR=""
+else
+    ERROR=" not"
+fi
+echo "$param_val is$ERROR an ordinary file"
+
+if [[ -r "$param_val" ]]; then
+    ERROR=""
+else
+    ERROR=" not"
+fi
+echo "$param_val is$ERROR readable"
+
+if [[ -w "$param_val" ]]; then
+    ERROR=""
+else
+    ERROR=" not"
+fi
+echo "$param_val is$ERROR writable"
+
+if [[ -x "$param_val" ]]; then
+    ERROR=""
+else
+    ERROR=" not"
+fi
+echo "$param_val is$ERROR executable"
+
+exit 0
+
+
+

@@ -1,0 +1,19 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$HeadURL$
+#$Revision$
+
+Num_Of_Param=1
+Loop_Counter=$@
+
+for ((; $Loop_Counter >= 0 ; Loop_Counter--))
+do
+    if(( $Loop_Counter%3 == 0 ))
+    then
+	echo $Loop_Counter
+    fi
+done
+
+exit 0

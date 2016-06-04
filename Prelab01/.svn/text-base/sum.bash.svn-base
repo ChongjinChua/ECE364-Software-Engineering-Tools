@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#$Author$
+#$Date$
+#$Revisions$
+#$HeadURL$
+#$Id$
+
+param_num=$#;
+let sum=0;
+
+while (("$#")); do
+
+    ((sum=sum+"$1"));
+
+shift
+
+done
+
+echo ${sum}
+
+exit 0
+
+
+

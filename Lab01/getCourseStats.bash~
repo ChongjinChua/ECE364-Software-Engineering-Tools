@@ -1,0 +1,35 @@
+#! /bin/bash
+#
+#$Author$
+#$Date$
+#$HeadURL$
+#$Revision$
+#$Id$
+
+param_num=$#
+param_val=$@
+USAGE="Usage: ./getCourseStats.bash <course name>" #return code 1
+ERROR_NEXIST="Error: course $param_val is not a valid option"  #return code 5
+ERROR_GFS="Error whlie running getFinalScores.bash"  #return code 3
+
+if (($param_num != 1)); then
+    echo "$USAGE"
+    exit 1
+elif [[ "$param_val" != "ece364" && "$param_val" != "ece337" && "$param_val" != "ece468" ]]; then
+    echo $param_val
+    echo "$ERROR_NEXIST"
+    exit 5
+fi
+
+
+
+    (./getFinalScores.bash gradebooks/"$param_val"_section1.tx)
+    if (( $? < 0 )); then
+	echo "ERROR_GFS"
+	exit 3
+    fi
+
+
+
+exit 0
+

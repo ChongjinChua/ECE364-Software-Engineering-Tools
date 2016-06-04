@@ -1,0 +1,13 @@
+1. A class is only declared once, and is the blueprint of an object. Objects are instances of a class, they are declared as many times as needed, and they inherit the traits specified by their class.
+
+2. A member variable is a variable that belongs to an object, where a regular variable is a variable that belongs to a scope.
+
+3. Member function describes the behaviour of an object by carrying out actions on the member variables. Non member functions exist in a scope and it's not bounded by an object. 'Self' argument is required to differentiate between all of the potential objects that exist a reference to a specific object is provided.
+
+4. IS-A. Composition means an object can be composed of other object, and has a HAS-A relationship. An example of inheritance is a GoodStudent class inherits from a Student class. An example of composition is A Car object has an engine object.
+
+5. To initialize an object.
+
+6. __init__  only once.
+
+

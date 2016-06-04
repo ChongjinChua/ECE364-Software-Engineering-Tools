@@ -1,0 +1,84 @@
+#!/bin/bash
+
+#$Author: ee364g13 $
+#$Date: 2016-01-24 16:42:21 -0500 (Sun, 24 Jan 2016) $
+#$Revisions$
+#$HeadURL: svn+ssh://ece364sv@ecegrid-thin1/home/ecegrid/a/ece364sv/svn/S16/students/ee364g13/Prelab02/run.bash $
+#$Id: run.bash 86595 2016-01-24 21:42:21Z ee364g13 $
+
+param_num=$#
+param_val=$@
+USAGE="Usage: printUsageStats.bash <log file> "
+ERROR="Error: $param_val does not exists!"
+
+#ONLY ALLOWS 1 ARGUMENT
+if (($param_num != 1)); then
+    echo "$USAGE"
+    exit 1
+elif [[ ! -e $param_val ]]; then
+    echo "ERROR"
+    exit 2
+fi
+
+time_stamp=$(head --lines=1 $param_val | cut -d' ' -f3)
+echo "Parsing file \"$param_val\". Timestamp: $time_stamp"
+
+echo "Your choices are:"
+echo "1) Active user IDs"
+echo "2) N Highest CPU usages"
+echo "3) N Highest mem usages"
+echo "4) Top 3 longest running processes"
+echo "5) All processes by a specific user"
+echo "6) Exit"
+
+let choice=0
+echo
+
+while (( choice != 6 )); do
+    read -p "Please enter your choice: " choice
+    case "$choice" in
+	1)
+	    act_user=$(head --lines=1 $param_val | cut -d' ' -f8)
+	    echo "Total number of active user IDs: $act_user"
+	    ;;
+	2)
+	    read -p "Enter a value for N: " N_val
+	    cpu_array=($(tail -n +8 $param_val | head --lines=$N_val | cut -d' ' -f9))
+	    user_array=($(tail -n +8 $param_val | head --lines=$N_val | cut -d' ' -f2))
+	    for (( I = 0; I < $N_val; I++ )); do
+		echo "User ${user_array[I]} is utilizing CPU resources at ${cpu_array[I]}%"
+	    done
+	    ;;
+	3)
+	    read -p "Enter a value for N: " N_val
+	    mem_array=($(tail -n +8 $param_val | sort -n -k10 -r | head --lines=$N_val | cut -d' ' -f10))
+	    user_array=($(tail -n +8 $param_val | sort -n -k10 -r | head --lines=$N_val | cut -d' ' -f2))	    
+	    for (( I = 0; I < $N_val; I++ )); do
+		echo "User ${user_array[I]} is utilizing mem resources at ${mem_array[I]}%"
+	    done
+	    ;;
+	4)
+	    PID_array=($(tail -n +8 $param_val | sort -n -k11 -r | head --lines=3 | cut -d' ' -f1))
+	    command_array=($(tail -n +8 $param_val | sort -n -k11 -r | head --lines=3 | cut -d' ' -f12))	    
+	    for (( I = 0; I < 3; I++ )); do
+		echo "PID: ${PID_array[I]}, cmd: ${command_array[I]}"
+	    done
+	  ;;
+	5)
+	    read -p "Please enter a valid username: " valid_username
+	    grep $valid_username $param_val
+	    if (( $? == 0 )); then
+		cpu_array=($(grep $valid_username $param_val | cut -d' ' -f9))
+		command_array=($(grep $valid_username $param_val | cut -d' ' -f12))		
+		for (( I = 0; I < ${#cpu_array[*]}; I++ )); do
+		    echo "${cpu_array[I]} ${command_array[I]}"
+		done
+	    else
+		echo "'No match found'"
+	    fi
+	    ;;
+	6)break;;
+    esac
+    echo
+done
+exit 0

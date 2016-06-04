@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#$Author$
+#$Date$
+#$Revisions$
+#$HeadURL$
+#$Id$
+
+param_num=$#;
+
+while (("$#")); do
+
+    if [[ -e "$1" ]]; then
+	if [[ -r "$1" ]]; then
+	    echo "File "$1" is readable!"
+	fi
+    else
+	touch "$1"
+    fi
+
+shift
+
+done
+
+exit 0
+
+
+

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#$Author$
+#$Date$
+#$Revisions$
+#$HeadURL$
+#$Id$
+
+param_num=$#
+param_val=$@
+USAGE="Usage: line_num.bash <filename>"
+ERROR="Cannot read "$param_val""
+counter="1"
+
+if [[ "$param_num" != "1" ]]; then
+    echo "$USAGE"
+    exit 1
+fi
+
+if [[ -r "$param_val" ]]; then
+    while read line; do
+	echo "$counter:$line"
+	((counter=counter+1))
+    done < $param_val
+else
+    echo "$ERROR"
+    exit 1
+fi
+
+exit 0
+
+
+
